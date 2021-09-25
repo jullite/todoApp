@@ -16,25 +16,25 @@ const createElement = (parent, tagName, text="", attributes={}) => {
 
 const getTimeStamp = () => Date.now()
 
-const observe = (arr, prop, callback) => {
+const observe = (arr, renderCbk, saveCbk) => {
     const handler = {
-        set: function(target, property, value, receiver) {
+        set: function(target, property, value) {
             // 执行所有原来的行为
             const result = Reflect.set(...arguments)
-
-
+            // target[property] = value
             // 笔记 todo
             // push 会 set 两次哦
             // 一次是 arr 的 len；一次是 arr[index] = value
-            // log("set it", target, property, value, receiver) 
+            log("Set %s to %o", property, value);
             
-            if (prop === property) {
-                callback()
+            // 如果长度改变，重新渲染
+            if (property === 'length') {
+                renderCbk()
             }
-
+            //存储
+            saveCbk()
             return result
         }
     }
-    
     return new Proxy(arr, handler)
 }
