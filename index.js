@@ -91,9 +91,11 @@ const input = new UserInput('#app > input', '#app > button')
 const todolist = Q('#todolist')
 
 const renderTodos = () => {
+    // 每次渲染前清空 Dom
     todolist.innerHTML = ''
     for(const todo of todos){
         const li = createElement(todolist, 'li', '', {'data-id': todo.id})
+        createElement(li, 'input', '', {'type':'checkbox'})
         const span = createElement(li, 'span', todo.content)
         // vanilla js
         const deleteBtn = createElement(li, 'button', 'delete')
@@ -105,9 +107,13 @@ const initTodoData = () => {
     // observe todo data
     const d = localStorage.getItem("todoData")
     let todos = JSON.parse(d)
-    return observe(todos, 'length',() => {
-        log("todos 的改变被我做了手脚")
+    
+    return observe(todos, 
+        () => {
+        log("todos 的长度发生了改变, 重新 rende")
         renderTodos()
+        }, 
+        () => {
         localStorage.setItem("todoData", JSON.stringify(todos))
     })
 }
@@ -121,26 +127,43 @@ input.onSubmit(content => {
 })
 
 const deleteTodo = (id) =>{
+    [index, todo] = findTodoById(id)
+    todos.splice(index, 1)
+}
+
+const findTodoById = (id)=>{
     let index = -1
     for(const [i, todo] of todos.entries()){
         if(todo.id === id){
             index = i
-            break
+            return [i, todo]
         }
     }
     if (index === -1) {
         log("not found")
+        return [-1, null]
     }
-    todos.splice(index, 1)
+}
+
+const changeTodoState = (id) => {
+    [index, todo] = findTodoById(id)
+    log(index)
+    todos[index].isDone = !todos[index].isDone
+    // todo.isDone = !todo.isDone
 }
 
 todolist.addEventListener('click', event => {
     log(event, event.target)
     const t = event.target
+    const id = t.parentElement.dataset.id
+    log('li id is', id)
     if(t.nodeName === 'BUTTON'){
-        const id = t.parentElement.dataset.id
-        log('li id', id)
+        log('detele todo')
         deleteTodo(id)
+    }
+    if(t.nodeName === 'INPUT'){
+        log('change state')
+        changeTodoState(id)
     }
 })
 
