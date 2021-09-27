@@ -89,6 +89,7 @@ class Todo {
 const app = Q('#app')
 const input = new UserInput('#app > input', '#app > button')
 const todolist = Q('#todolist')
+const clearBtn = Q('#clearAll')
 
 const renderTodos = () => {
     // 每次渲染前清空 Dom
@@ -165,5 +166,10 @@ todolist.addEventListener('click', event => {
         log('change state')
         changeTodoState(id)
     }
+})
+
+clearBtn.addEventListener('click', event => {
+    log('clearAll Btn clicked')
+    todos.splice(0, todos.length)
 })
 
