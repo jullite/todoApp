@@ -105,8 +105,12 @@ const renderTodos = () => {
 
 const initTodoData = () => {
     // 读 localStorage
-    // observe todo data
-    const d = localStorage.getItem("todoData")
+    // observe todo da  ta
+    let d = '[]'
+    if(localStorage.getItem("todoData") != null){
+        d = localStorage.getItem("todoData")
+    }
+
     let todos = JSON.parse(d)
     
     return observe(todos, 
