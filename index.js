@@ -174,7 +174,7 @@ todolist.addEventListener('click', event => {
 // 删除所有
 clearBtn.addEventListener('click', event => {
     log('clearAll Btn clicked')
-    alert('this will delete all todos, Are you sure?')
+    alert('This will delete all todos, Are you sure?')
     todos.splice(0, todos.length)
 })
 
