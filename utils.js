@@ -7,6 +7,9 @@ const setS = (key, value) => {
 const getS = (key) =>{
     return localStorage.getItem(key)
 }
+const rmS = (key) => {
+    localStorage.removeItem(key)
+}
 
 const createElement = (parent, tagName, text="", attributes={}) => {
     const e = document.createElement(tagName)
@@ -22,7 +25,7 @@ const createElement = (parent, tagName, text="", attributes={}) => {
 
 const getTimeStamp = () => Date.now()
 
-const observe = (arr, renderCbk, saveCbk) => {
+const observe = (arr, callback) => {
     const handler = () => {
         return{
             get: function(target, prop){
@@ -43,11 +46,10 @@ const observe = (arr, renderCbk, saveCbk) => {
                 log("Set %s to %o", property, value);
                 
                 // 如果长度改变，重新渲染
-                if (property === 'length') {
-                    renderCbk()
-                }
+                // if (property === 'length') {
+                callback()
+                // }
                 //存储
-                saveCbk()
                 return result
             }
     

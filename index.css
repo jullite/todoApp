@@ -32,3 +32,7 @@
     font-size: 130%;
     margin-left: 10px;
 }
+
+.isDone{
+    text-decoration-line: line-through;
+}

@@ -18,7 +18,7 @@ class UserInput {
         // inherent callbac
         // clean
         this.input.value = ''
-        localStorage.removeItem(this.storageKey)
+        rmS(this.storageKey)
 
     }
     _initSubmitEventListener () {
@@ -53,7 +53,7 @@ class UserInput {
         // localstore when user type
         this.input.addEventListener('keyup', event => {
             if (this.isEmpty) {
-                localStorage.removeItem(k)
+                rmS(k)
                 return
             }
             localStorage.setItem(k, this.value)
@@ -94,10 +94,11 @@ const clearBtn = Q('#clearAll')
 const renderTodos = () => {
     // 每次渲染前清空 Dom
     todolist.innerHTML = ''
+    // 渲染每一个 todo
     for(const todo of todos){
         const li = createElement(todolist, 'li', '', {'data-id': todo.id})
-        createElement(li, 'input', '', {'type': 'checkbox', 'checked': todo.isDone})
-        const span = createElement(li, 'span', todo.content)
+        createElement(li, 'input', '', {'type': 'checkbox'}).checked = todo.isDone
+        const span = createElement(li, 'span', todo.content, {'class': todo.isDone ? 'isDone' : ''})
         // vanilla js
         const deleteBtn = createElement(li, 'button', 'delete')
 
@@ -105,23 +106,20 @@ const renderTodos = () => {
 }
 
 const initTodoData = () => {
-    // 读 localStorage
+    // 读 localStorage, 如果没有则初始化为 '[]'
     // observe todo da  ta
     let d = '[]'
-    if(localStorage.getItem("todoData") != null){
-        d = localStorage.getItem("todoData")
+    if(getS("todoData") != null){
+        d = getS("todoData")
     }
 
     let todos = JSON.parse(d)
     
     return observe(todos, 
         () => {
-        log("todos 的长度发生了改变, 重新 render")
         renderTodos()
-        }, 
-        () => {
-        localStorage.setItem("todoData", JSON.stringify(todos))
-    })
+        setS("todoData", JSON.stringify(todos))
+        })
 }
 
 const todos = initTodoData()
@@ -129,7 +127,7 @@ renderTodos()
 
 input.onSubmit(content => {
     const todo = new Todo(content)
-    todos.push(todo)
+    todos.unshift(todo)
 })
 
 const deleteTodo = (id) =>{
@@ -153,11 +151,11 @@ const findTodoById = (id)=>{
 
 const changeTodoState = (id) => {
     [index, todo] = findTodoById(id)
-    log(index)
-    todos[index].isDone = !todos[index].isDone
-    // todo.isDone = !todo.isDone
+    todo.isDone = !todo.isDone
+    
 }
 
+// todolist 监听
 todolist.addEventListener('click', event => {
     log(event, event.target)
     const t = event.target
@@ -173,8 +171,10 @@ todolist.addEventListener('click', event => {
     }
 })
 
+// 删除所有
 clearBtn.addEventListener('click', event => {
     log('clearAll Btn clicked')
+    alert('this will delete all todos, Are you sure?')
     todos.splice(0, todos.length)
 })
 
