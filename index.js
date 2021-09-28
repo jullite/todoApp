@@ -96,10 +96,11 @@ const renderTodos = () => {
     todolist.innerHTML = ''
     for(const todo of todos){
         const li = createElement(todolist, 'li', '', {'data-id': todo.id})
-        createElement(li, 'input', '', {'type':'checkbox'})
+        createElement(li, 'input', '', {'type': 'checkbox', 'checked': todo.isDone})
         const span = createElement(li, 'span', todo.content)
         // vanilla js
         const deleteBtn = createElement(li, 'button', 'delete')
+
     }
 }
 
@@ -115,7 +116,7 @@ const initTodoData = () => {
     
     return observe(todos, 
         () => {
-        log("todos 的长度发生了改变, 重新 rende")
+        log("todos 的长度发生了改变, 重新 render")
         renderTodos()
         }, 
         () => {
