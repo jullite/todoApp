@@ -74,15 +74,25 @@ class UserInput {
     }
 }
         
-class Todo {
-    constructor(content) {
+
+class Todos {
+    constructor(title){
+        this.title = title
+    }
+}
+
+class Todo extends Todos{
+    constructor(content) {  
         const t = getTimeStamp()
         this.id = `todo-${t}`
+        super(title)
         this.content = content
         this.created_time = t
         this.isImportant = false
         this.isDone = false
     }
+
+
 }
 
 
@@ -155,7 +165,7 @@ const changeTodoState = (id) => {
     
 }
 
-// todolist 监听
+// todolist ul 监听
 todolist.addEventListener('click', event => {
     log(event, event.target)
     const t = event.target
