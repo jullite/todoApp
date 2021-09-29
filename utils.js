@@ -26,8 +26,8 @@ const createElement = (parent, tagName, text="", attributes={}) => {
 const getTimeStamp = () => Date.now()
 
 const observe = (arr, callback) => {
-    const handler = () => {
-        return{
+    const handler = () =>
+        ({
             get: function(target, prop){
                 log("Get %s, type is %s", prop, Object.prototype.toString.call(target[prop]))
                 if (['[object Object]'].indexOf(Object.prototype.toString.call(target[prop])) > -1) {
@@ -52,8 +52,8 @@ const observe = (arr, callback) => {
                 //存储
                 return result
             }
+        })
     
-        }
-    }
+        
     return new Proxy(arr, handler())
 }
