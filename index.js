@@ -75,17 +75,17 @@ class UserInput {
 }
         
 
-class Todos {
-    constructor(title){
-        this.title = title
-    }
-}
+// class Todos {
+//     constructor(title){
+//         this.title = title
+//     }
+// }
 
-class Todo extends Todos{
+class Todo{
     constructor(content) {  
         const t = getTimeStamp()
         this.id = `todo-${t}`
-        super(title)
+        // super(title)
         this.content = content
         this.created_time = t
         this.isImportant = false
@@ -118,12 +118,7 @@ const renderTodos = () => {
 const initTodoData = () => {
     // 读 localStorage, 如果没有则初始化为 '[]'
     // observe todo da  ta
-    let d = '[]'
-    if(getS("todoData") != null){
-        d = getS("todoData")
-    }
-
-    let todos = JSON.parse(d)
+    let todos = JSON.parse(getS("todoData") || '[]')
     
     return observe(todos, 
         () => {
