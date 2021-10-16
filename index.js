@@ -91,8 +91,6 @@ class Todo {
         this.isImportant = false
         this.isDone = false
     }
-
-
 }
 
 
@@ -117,7 +115,7 @@ const renderTodos = () => {
 
 const initTodoData = () => {
     // 读 localStorage, 如果没有则初始化为 '[]'
-    // observe todo da  ta
+    // observe todo data
     let todos = JSON.parse(getS("todoData") || '[]')
 
     return observe(todos,
@@ -128,6 +126,7 @@ const initTodoData = () => {
 }
 
 const todos = initTodoData()
+// todo 变量作用域问题
 renderTodos()
 
 input.onSubmit(content => {

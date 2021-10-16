@@ -13,9 +13,7 @@ const rmS = (key) => {
 
 const createElement = (parent, tagName, text = "", attributes = {}) => {
     const e = document.createElement(tagName)
-    if (text) {
-        e.innerText = text
-    }
+    text = text || e.innerText
     for (const [key, value] of Object.entries(attributes)) {
         e.setAttribute(key, value)
     }
