@@ -136,7 +136,7 @@ input.onSubmit(content => {
 })
 
 const deleteTodo = (id) =>{
-    [index, todo] = findTodoById(id)
+    const [index, todo] = findTodoById(id)
     todos.splice(index, 1)
 }
 
@@ -155,7 +155,7 @@ const findTodoById = (id)=>{
 }
 
 const changeTodoState = (id) => {
-    [index, todo] = findTodoById(id)
+    let [index, todo] = findTodoById(id)
     todo.isDone = !todo.isDone
     
 }
